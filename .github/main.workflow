@@ -7,3 +7,13 @@ action "branch cleanup" {
   uses = "jessfraz/branch-cleanup-action@master"
   secrets = ["GITHUB_TOKEN"]
 }
+
+workflow "Deployment workflow" {
+  on = "push"
+  resolves = ["deploy"]
+}
+
+action "deploy" {
+  uses = "actions/zeit-now@master"
+  secrets = ["ZEIT_TOKEN"]
+}
