@@ -10,4 +10,9 @@ action "branch cleanup" {
 
 workflow "Deployment workflow" {
   on = "push"
+  resolves = ["deploy"]
+}
+
+action "deploy" {
+  uses = "actions/zeit-now@master"
 }
