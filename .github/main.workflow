@@ -16,4 +16,5 @@ workflow "Deployment workflow" {
 action "deploy" {
   uses = "actions/zeit-now@master"
   secrets = ["ZEIT_TOKEN"]
+  args = "-e GITHUB_SHA=$GITHUB_SHA -e GITHUB_ACTOR=$GITHUB_ACTOR"
 }
