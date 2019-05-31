@@ -10,11 +10,17 @@ action "branch cleanup" {
 
 workflow "Deployment workflow" {
   on = "push"
-  resolves = ["deploy"]
+  resolves = ["sms notify"]
 }
 
 action "deploy" {
   uses = "actions/zeit-now@master"
   secrets = ["ZEIT_TOKEN"]
   args = "-e GITHUB_SHA=$GITHUB_SHA -e GITHUB_ACTOR=$GITHUB_ACTOR"
+}
+
+action "sms notify" {
+  uses = "nexmo-community/nexmo-sms-action@master"
+  needs = ["deploy"]
+  secrets = ["NEXMO_API_KEY", "NEXMO_API_SECRET"]
 }
