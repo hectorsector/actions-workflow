@@ -10,10 +10,23 @@ action "branch cleanup" {
 
 workflow "Deployment workflow" {
   on = "push"
-  resolves = ["deploy"]
+  resolves = ["sms notify"]
 }
 
 action "deploy" {
   uses = "actions/zeit-now@master"
   secrets = ["ZEIT_TOKEN"]
+  args = "-e GITHUB_SHA=$GITHUB_SHA -e GITHUB_ACTOR=$GITHUB_ACTOR deploy > deploy.txt"
+}
+
+action "sms notify" {
+  uses = "nexmo-community/nexmo-sms-action@master"
+  needs = ["deploy"]
+  secrets = [
+    "NEXMO_API_KEY",
+    "NEXMO_API_SECRET",
+    "NEXMO_NUMBER",
+    "PHONE",
+  ]
+  args = "$PHONE A deployment just occurred at `cat deploy.txt` check it out"
 }
