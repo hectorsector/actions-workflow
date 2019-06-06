@@ -22,5 +22,11 @@ action "deploy" {
 action "sms notify" {
   uses = "nexmo-community/nexmo-sms-action@master"
   needs = ["deploy"]
-  secrets = ["NEXMO_API_KEY", "NEXMO_API_SECRET"]
+  secrets = [
+    "NEXMO_API_KEY",
+    "NEXMO_API_SECRET",
+    "NEXMO_NUMBER",
+    "PHONE",
+  ]
+  args = "$PHONE A deployment just occurred at `cat deploy.txt` check it out"
 }
