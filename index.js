@@ -26,3 +26,5 @@ http.createServer(app).listen(app.get('port'), function () {
 })
 
 module.exports = app
+
+console.log('hello')
